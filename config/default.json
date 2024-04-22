@@ -1,0 +1,12 @@
+{
+    "ENABLED_REGIONS": [
+        {
+            "name": "US East (N. Virginia)",
+            "code": "us-east-1"
+        },
+        {
+            "name": "US East (Ohio)",
+            "code": "us-east-2"
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+@use '@cloudscape-design/design-tokens/index' as awsui;
+
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --app-color-scheme: light;
+  color-scheme: var(--app-color-scheme);
+  --border-radius-container-wqv1zi: 0 !important;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background-color: #ffffff;
+  overflow-y: scroll;
+}
+
+body.awsui-dark-mode {
+  background-color: #0e1b2a;
+}
+
+#pagebody {
+  padding-top: 52px;
+  padding-bottom: 30px;
+}
+
+#header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1001;
+}
+
+#footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  z-index: 1001;
+  min-height: 30px;
+}

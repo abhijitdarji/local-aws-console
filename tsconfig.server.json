@@ -1,0 +1,16 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "dist",
+        "esModuleInterop": true,
+        "moduleResolution": "Node",
+        "module": "CommonJS",
+        "target": "ESNext",
+        "noEmit": false,
+        "inlineSourceMap": true
+    },
+    "include": [
+        "src/server/*.ts",
+        "src/server/**/*.ts"
+    ]
+}

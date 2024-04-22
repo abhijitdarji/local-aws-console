@@ -1,0 +1,42 @@
+@use '@cloudscape-design/design-tokens/index' as awsui;
+
+.radio-group-container {
+    padding: 10px;
+
+    div[role="radiogroup"] {
+        display: flex !important;
+        flex-direction: row;
+
+        >span {
+            display: inline-flex;
+            margin-right: 10px;
+            margin-top: 0 !important;
+
+            >span {
+                display: inline-flex;
+                cursor: pointer !important;
+                padding: 10px;
+                padding-right: 50px;
+                border: 1px solid awsui.$color-border-control-default;
+            }
+        }
+    }
+}
+
+.separator {
+    padding-bottom: 0 !important;
+    border-bottom: 1px solid awsui.$color-border-divider-default;
+}
+
+.insights-editor {
+    height: 100%;
+    min-height: 100px !important;
+    resize: vertical;
+    overflow: auto;
+    border: 2px solid awsui.$color-border-control-default;
+}
+
+.focused-container {
+    padding: 2px;
+    background-color: awsui.$color-border-control-default;
+}
