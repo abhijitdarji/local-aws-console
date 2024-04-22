@@ -2,6 +2,8 @@
 
 A local AWS console that can be used to interact with AWS services across multiple AWS profiles and regions based on the aws cli configuration.
 
+![home](docs/home.png)
+
 ## Features
 
 ### AWS Services
@@ -20,6 +22,8 @@ A local AWS console that can be used to interact with AWS services across multip
 - Favorites for services across profiles
 - Logs insights saved queries
 - JSON file database for storing favorites and saved queries
+
+![alt text](docs/favorites.png)
 
 ## Built With
 
