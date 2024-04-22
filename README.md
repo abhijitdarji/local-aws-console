@@ -73,8 +73,7 @@ A local AWS console that can be used to interact with AWS services across multip
 version: '3.9'
 services:
   app:
-    build: .
-    image: adarji/local-aws-console:1.0.0
+    image: adarji/local-aws-console:latest
     container_name: local-aws-console
     ports:
       - '8080:8080'
