@@ -4,16 +4,36 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  REGISTRY_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/local-aws-console
+
 jobs:
   docker:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
     steps:
+      - name: Prepare
+        run: |
+          platform=${{ matrix.platform }}
+          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v4
     
       - name: get-npm-version
         id: pkg-ver
         uses: martinbeentjes/npm-get-version-action@v1.3.1
+    
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY_IMAGE }}
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -31,6 +51,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ matrix.platform }}
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/local-aws-console:${{ steps.pkg-ver.outputs.current-version}} , ${{ secrets.DOCKERHUB_USERNAME }}/local-aws-console:latest
+          tags: ${{ env.REGISTRY_IMAGE }}:${{ steps.pkg-ver.outputs.current-version}} , ${{ env.REGISTRY_IMAGE }}:latest
