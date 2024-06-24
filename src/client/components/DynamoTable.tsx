@@ -60,9 +60,31 @@ export const DynamoTable = (props: DynamoTableProps) => {
         setViewRecord(true);
 
         const uniqueKeys: string[] = getSortedKeys([item]);
+        const convertDynamoDbJson = (item: any) => {
+            const keys = Object.keys(item);
+            // String, Number, Binary, Boolean, Null, Map, List, String Set, Number Set, Binary Set
+            const dynamoDbKeys = ['S', 'N', 'B', 'BOOL', 'NULL', 'M', 'L', 'SS', 'NS', 'BS'];
+            return keys.reduce((acc, key) => {
+                const value = item[key];
+                if (typeof value === 'object' && value !== null) {
+                    const firstKey = Object.keys(value)[0];
+                    if (Object.keys(value).length === 1 && dynamoDbKeys.includes(firstKey) && !['M', 'L'].includes(firstKey)) {
+                        acc[key] = value[Object.keys(value)[0]];
+                    } else {
+                        acc[key] = convertDynamoDbJson(value[firstKey]);
+                    }
+                } else {
+                    acc[key] = value;
+                }
+                return acc;
+            }, {} as any);
+        }
 
         const sortedItem = uniqueKeys.reduce((acc, key) => {
             acc[key] = item[key];
+            if (typeof item[key] === 'object' && item[key] !== null) {
+                acc[key] = convertDynamoDbJson(item[key]);
+            }
             return acc;
         }, {} as any);
         setCurrentRecord(JSON.stringify(sortedItem, null, 4));
