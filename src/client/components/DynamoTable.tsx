@@ -109,7 +109,13 @@ export const DynamoTable = (props: DynamoTableProps) => {
             return {
                 id: key,
                 header: key,
-                cell: item => typeof item[key] === 'object' && item[key] !== null ? JSON.stringify(item[key]) : item[key],
+                cell: item => {
+                    const value = item[key];
+                    if (typeof value === 'boolean') {
+                        return <i>{value.toString()}</i>;
+                    }
+                    return typeof value === 'object' && value !== null ? JSON.stringify(value) : value;
+                },
                 sortingField: key,
                 width: 200,
                 // visible: true

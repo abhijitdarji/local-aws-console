@@ -30,8 +30,13 @@ const keyCreds = awsConfig.filter(section => {
     }
     ));
 
-const localProfile = awsConfig.filter(section => section.replace('profile', '').trim() === 'local')[0];
-const localCreds = localProfile ? configParser.items(localProfile) : {};
+const localProfiles = awsConfig.filter(section => section.replace('profile', '').trim().startsWith('local'));
+const localCreds = localProfiles.length > 0
+    ? localProfiles.map(l => ({
+            name: l.replace('profile ', ''),
+            creds: configParser.items(l)
+        }))
+    : [];
 
 let environments = {
     sso: ssoCreds.map(section => section.replace('profile ', '')).sort(),

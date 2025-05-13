@@ -51,11 +51,12 @@ class AwsSDKManager {
         if (this.#serviceClients[serviceName] && this.#serviceClients[serviceName].get(`${profile}:${region}`)) return this.#serviceClients[serviceName].get(`${profile}:${region}`);
 
         const service = await this.getService(serviceName);
+        const profileCreds = profile.startsWith("local") ? localCreds.find((cred: any) => cred.name === profile)?.creds : {};
         const credentials = profileType === 'sso' ? fromSSO({ profile: profile }) : fromIni({ profile: profile });
         const client = new service[`${serviceName}Client`]({ 
             region: region, 
             credentials: credentials,
-            ...profile === 'local' ? { endpoint: localCreds["endpoint_url"] ?? "http://localhost:4566" } : {} 
+            ...profile.startsWith("local")   ? { endpoint: profileCreds?.["endpoint_url"] ?? "http://localhost:4566" } : {} 
         });
         if (!this.#serviceClients[serviceName]) this.#serviceClients[serviceName] = new Map();
         this.#serviceClients[serviceName].set(`${profile}:${region}`, client);
