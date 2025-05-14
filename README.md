@@ -14,6 +14,7 @@ A local AWS console that can be used to interact with AWS services across multip
 - SNS
 - SQS
 - Secrets Manager
+- S3
 
 ### Application Features
 - Multiple AWS profiles
