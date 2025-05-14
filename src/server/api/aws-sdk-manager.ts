@@ -122,8 +122,8 @@ class AwsSDKManager {
 
                 if (data && data.Body instanceof Readable)
                 {
-                    let body = await this.streamToBuffer(data.Body)
-                    data.Body = (body as Buffer).toString('utf-8');
+                    let bodyBuffer = await this.streamToBuffer(data.Body)
+                    data.Body = bodyBuffer;
                 }
                 return data;
             }
