@@ -28,6 +28,8 @@ import { AddEditFavorite } from "./pages/Favorites/AddEditFavorite";
 import { QueueDetails } from "./pages/SQS/QueueDetails";
 import { StackResources } from "./pages/CloudFormation/StackResources";
 import { TopicDetails } from "./pages/SNS/TopicDetails";
+import { S3Home } from "./pages/S3/S3";
+import { BucketPrefixNavigator } from "./pages/S3/BucketPrefixNavigator";
 
 
 export const AppRouter = () => {
@@ -141,6 +143,14 @@ export const AppRouter = () => {
                 {
                     path: "/secretsmanager/:secretId",
                     element: <ViewSecret />
+                },
+                {
+                    path: "/s3",
+                    element: <S3Home />
+                },
+                {
+                    path: "/s3/:bucketName/*",
+                    element: <BucketPrefixNavigator />
                 },
                 {
                     path: "*",

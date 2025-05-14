@@ -1,4 +1,5 @@
-import { useState, useEffect, useContext } from "react";
+
+import React, { useState, useEffect, useContext } from "react";
 import { AppTable, ColumnDefinitionType } from "../../components/AppTable";
 import { useCachedData } from "../../hooks/use-cached-data";
 import { ContentLayout, Header, SpaceBetween, Button } from "@cloudscape-design/components";
@@ -6,71 +7,45 @@ import { GlobalContext, GlobalContextType } from "../../context/GlobalContext";
 import RouterLink from "../../components/RouterLink";
 import { LoadingErrorEmptyHandler } from "../../components/LoadingErrorEmptyHandler";
 import { RefreshButton } from "../../components/RefreshButton";
-import { FileSize } from "../../components/FileSize"; // Import FileSize component
 
 const columnDef: ColumnDefinitionType[] = [
     {
-        id: "logGroupName",
-        header: "Log Group",
-        cell: item => <RouterLink href={"/cloudwatchlogs/" + encodeURIComponent(item.logGroupName)} variant="secondary">{item.logGroupName}</RouterLink>,
-        sortingField: "logGroupName",
+        id: "BucketName",
+        header: "Bucket Name",
+        cell: item => <RouterLink href={"/s3/" + item.Name} variant="secondary">{item.Name}</RouterLink>,
+        sortingField: "Name",
         isRowHeader: true,
         visible: true,
         isKey: true
     },
     {
-        id: "logGroupClass",
-        header: "Log Class",
-        cell: item => item.logGroupClass,
-        sortingField: "logGroupClass",
-        visible: true,
-        width: 150
-    },
-    {
-        id: "metricFilterCount",
-        header: "Metric Filters",
-        cell: item => item.metricFilterCount,
-        sortingField: "metricFilterCount",
-        visible: true,
-        width: 150
-    },
-    {
-        id: "storedBytes",
-        header: "Storage",
-        cell: item => <FileSize bytes={item.storedBytes} />,
-        sortingField: "storedBytes",
-        visible: true,
-        width: 150
-    },
-    {
-        id: "logGroupArn",
-        header: "Arn",
-        cell: item => item.logGroupArn,
-        sortingField: "logGroupArn",
-        visible: true,
-        width: 250
-    },
+        id: "CreationDate",
+        header: "CreationDate",
+        cell: item => item.CreationDate,
+        sortingField: "CreationDate",
+        visible: true
+    }
 ];
 
-export const CloudWatchLogsHome = () => {
-    const [logGroups, setLogGroups] = useState<any>({});
+export const S3Home: React.FC = () => {
+    const [buckets, setBuckets] = useState<any>({});
     const { region } = useContext(GlobalContext) as GlobalContextType;
 
     const defaultParams = {
         method: 'POST',
-        url: '/aws/CloudWatchLogs/DescribeLogGroups',
+        url: '/aws/S3/ListBuckets',
         forceFetch: 0,
-        fetchAllPages: true,
         body: {}
-    };
+    }
 
     const [apiParams, setApiParams] = useState<any>(defaultParams);
 
     const { data, isLoading, isError, errorMessage, lastFetched } = useCachedData<any>(apiParams);
 
     useEffect(() => {
-        if (data?.logGroups)
-            setLogGroups(data.logGroups);
+        if (data?.Buckets) {
+            setBuckets(data.Buckets);
+        }
     }, [data]);
 
     const forceFetch = () => {
@@ -80,7 +55,7 @@ export const CloudWatchLogsHome = () => {
         }))
     }
 
-    const awsUrl = `https://${region}.console.aws.amazon.com/cloudwatch/home?region=${region}#/logsV2:log-groups`
+    const awsUrl = `https://${region}.console.aws.amazon.com/s3/buckets?region=${region}&bucketType=general`
 
     return <>
 
@@ -98,19 +73,21 @@ export const CloudWatchLogsHome = () => {
                     </SpaceBetween>
                 }
             >
-                CloudWatch Logs
+                S3
             </Header>}
         >
             <LoadingErrorEmptyHandler
                 isLoading={isLoading}
                 isError={isError}
                 errorMessage={errorMessage}
-                dataLength={logGroups?.length}>
+                dataLength={buckets?.length}
+            >
                 <AppTable
-                    resourceName="LogGroup"
+                    resourceName="Bucket"
                     columnDef={columnDef}
-                    items={logGroups}
+                    items={buckets}
                     pageSize={20}
+                // loading={loading}
                 />
             </LoadingErrorEmptyHandler>
         </ContentLayout>

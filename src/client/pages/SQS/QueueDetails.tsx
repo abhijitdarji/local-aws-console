@@ -11,6 +11,7 @@ import RouterLink from "../../components/RouterLink";
 import { LambdaTriggers } from "./LambdaTriggers";
 import { RefreshButton } from "../../components/RefreshButton";
 import { SnsSubscriptions } from "../../components/SnsSubscriptions";
+import { FileSize } from "../../components/FileSize"; // Import FileSize component
 
 
 export const QueueDetails = () => {
@@ -167,7 +168,7 @@ export const QueueDetails = () => {
                         <ColumnLayout columns={4} variant="text-grid">
                             <div>
                                 <Box variant="awsui-key-label">Maximum message size</Box>
-                                <div>{queueDetails.MaximumMessageSize / 1024} KB</div>
+                                <div><FileSize bytes={queueDetails.MaximumMessageSize} /></div>
                             </div>
                             <div>
                                 <Box variant="awsui-key-label">Messages Available</Box>

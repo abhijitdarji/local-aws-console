@@ -4,6 +4,7 @@ import { LoadingErrorEmptyHandler } from "../../components/LoadingErrorEmptyHand
 import { GlobalContext, GlobalContextType } from "../../context/GlobalContext";
 import RouterButton from "../../components/RouterButton";
 import { AppTable, ColumnDefinitionType } from "../../components/AppTable";
+import { FileSize } from "../../components/FileSize"; // Import FileSize component
 
 interface DdbTableDetailsProps {
     tableName: string;
@@ -51,7 +52,7 @@ const columnDef: ColumnDefinitionType[] = [
     {
         id: "IndexSizeBytes",
         header: "Size",
-        cell: item => (item.IndexSizeBytes / 1024).toFixed(2),
+        cell: item => <FileSize bytes={item.IndexSizeBytes} />,
         sortingField: "IndexSizeBytes",
         visible: true
     }
@@ -190,7 +191,7 @@ export const DdbTableDetails: React.FC<DdbTableDetailsProps> = ({ tableName, tab
 
                                                 <div>
                                                     <Box variant="awsui-key-label">Table size</Box>
-                                                    <div>{(details.TableSizeBytes / 1024).toFixed(2)}</div>
+                                                    <div><FileSize bytes={details.TableSizeBytes} /></div>
                                                 </div>
 
                                             </ColumnLayout>

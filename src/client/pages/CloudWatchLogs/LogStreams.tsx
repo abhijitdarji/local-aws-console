@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AppTable, ColumnDefinitionType } from "../../components/AppTable";
@@ -7,6 +6,7 @@ import { ContentLayout, Header, SpaceBetween, Button } from "@cloudscape-design/
 import { GlobalContext, GlobalContextType } from "../../context/GlobalContext";
 import RouterLink from "../../components/RouterLink";
 import { LoadingErrorEmptyHandler } from "../../components/LoadingErrorEmptyHandler";
+import { FileSize } from "../../components/FileSize"; // Import FileSize component
 
 const columnDef: ColumnDefinitionType[] = [
     {
@@ -37,8 +37,8 @@ const columnDef: ColumnDefinitionType[] = [
     },
     {
         id: "storedBytes",
-        header: "Storage (GB)",
-        cell: item => (item.storedBytes / 1024 / 1024 / 1024).toFixed(2),
+        header: "Storage",
+        cell: item => <FileSize bytes={item.storedBytes} />,
         sortingField: "storedBytes",
         visible: true,
         width: 150

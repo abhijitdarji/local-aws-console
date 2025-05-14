@@ -66,13 +66,13 @@ const nav: SideNavigationProps.Item[] = [
         { type: 'link', text: 'Topics', href: '/sns' },
       ],
     },
-    // {
-    //   type: 'section',
-    //   text: 'S3',
-    //   items: [
-    //     { type: 'link', text: 'Buckets', href: '/s3' },
-    //   ],
-    // },
+    {
+      type: 'section',
+      text: 'S3',
+      items: [
+        { type: 'link', text: 'Buckets', href: '/s3' },
+      ],
+    },
     {
       type: 'section',
       text: 'DynamoDB',

@@ -1,6 +1,6 @@
 {
   "name": "local-aws-console",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Abhijit Darji",
   "description": "Local readonly AWS console",
   "engines": {

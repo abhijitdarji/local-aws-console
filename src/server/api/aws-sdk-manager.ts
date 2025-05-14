@@ -3,6 +3,7 @@
 import { fromIni, fromSSO } from '@aws-sdk/credential-providers';
 import { GetCallerIdentityCommand } from '@aws-sdk/client-sts';
 import { localCreds } from './app-settings';
+import { Readable } from 'stream';
 
 class AwsSDKManager {
 
@@ -74,6 +75,21 @@ class AwsSDKManager {
         return response;
     }
 
+    async streamToBuffer(stream: Readable) {
+        return new Promise((resolve, reject) => {
+            const chunks: Buffer[] = [];
+            stream.on('data', (chunk: Buffer) => {
+                chunks.push(chunk);
+            });
+            stream.on('end', () => {
+                resolve(Buffer.concat(chunks));
+            });
+            stream.on('error', (err: Error) => {
+                reject(err);
+            });
+        });
+    }
+
 
     async callAWSService(serviceName: string, commandName: string, options: any, fetchAllPages = false) {
 
@@ -102,10 +118,15 @@ class AwsSDKManager {
                 return result;
             } else {
                 const commandInstance = new service[command](options);
-                const data = await client.send(commandInstance);
+                let data = await client.send(commandInstance);
+
+                if (data && data.Body instanceof Readable)
+                {
+                    let body = await this.streamToBuffer(data.Body)
+                    data.Body = (body as Buffer).toString('utf-8');
+                }
                 return data;
             }
-
         } catch (error) {
             console.error('Error executing command:', error);
             throw error;

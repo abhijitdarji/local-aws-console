@@ -35,7 +35,8 @@ export const Breadcrumbs = () => {
         }
 
         const subPaths = pathnames.map((value, index) => {
-            const href = `/${pathnames.slice(0, index + 1).join('/')}${location.search}`;
+            let href = `/${pathnames.slice(0, index + 1).join('/')}${location.search}`;
+            if (pathnames[0] === 's3') href += '/';
             value = decodeURIComponent(value);
             if (value.length > 17) {
                 value = value.substring(0, 17) + '...';

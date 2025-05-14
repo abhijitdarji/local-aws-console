@@ -16,6 +16,7 @@ import { GlobalContext, GlobalContextType } from "../../context/GlobalContext";
 import { useCachedData } from "../../hooks/use-cached-data";
 import { LoadingErrorEmptyHandler } from "../../components/LoadingErrorEmptyHandler";
 import { RefreshButton } from "../../components/RefreshButton";
+import { FileSize } from "../../components/FileSize"; // Import FileSize component
 
 export const FunctionDetail = () => {
 
@@ -134,7 +135,7 @@ export const FunctionDetail = () => {
                                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                                     <div>
                                         <Box variant="awsui-key-label">Code Size</Box>
-                                        <div>{Math.round(functionDetails.CodeSize / 1024 / 1024)} MB</div>
+                                        <div><FileSize bytes={functionDetails.CodeSize} /></div>
                                     </div>
                                     <div>
                                         <Box variant="awsui-key-label">Package</Box>
