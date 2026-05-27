@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dark background pill -->
+  <rect width="32" height="32" rx="8" fill="#232f3e"/>
+  <!-- AWS-style orange arc / smile -->
+  <path d="M8 20 Q16 26 24 20" stroke="#ff9900" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Terminal prompt ">" -->
+  <text x="5" y="17" font-family="monospace" font-size="13" font-weight="bold" fill="#ff9900">&gt;_</text>
+</svg>

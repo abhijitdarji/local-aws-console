@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    image: local-aws-console:latest
+    container_name: local-aws-console
+    volumes:
+      - $HOME/.aws:/root/.aws
+      - ./config:/app/config
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    network_mode: host

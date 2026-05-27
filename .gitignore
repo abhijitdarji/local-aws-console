@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.next
+next-env.d.ts
 
 # Editor directories and files
 .vscode/*
@@ -31,3 +33,7 @@ dist-ssr
 ehthumbs.db
 Icon?
 Thumbs.db
+
+.agents
+.cursor
+tsconfig.tsbuildinfo

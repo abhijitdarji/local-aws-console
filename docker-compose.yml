@@ -1,15 +1,21 @@
-version: '3.9'
 services:
   app:
     build: .
     image: local-aws-console:latest
     container_name: local-aws-console
     ports:
-      - '8080:8080'
+      - '3000:3000'
     volumes:
       - $HOME/.aws:/root/.aws
       - ./config:/app/config
+    extra_hosts:
+      # Makes host.docker.internal resolve to the Docker host on Linux too
+      - 'host.docker.internal:host-gateway'
     environment:
       - NODE_ENV=production
-      - VITE_PORT=8080
-      
+      # - PORT=3000
+      - HOSTNAME=0.0.0.0
+      # Rewrites localhost/127.0.0.1 in any LocalStack endpoint URL so the
+      # container can reach LocalStack running on the host machine.
+      # or use network_mode: host
+      - LOCALSTACK_HOST=host.docker.internal
