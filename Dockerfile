@@ -1,14 +1,21 @@
-
-FROM node:18-slim AS build
+FROM node:22-alpine AS deps
 WORKDIR /app
-COPY ./package.json /app
-COPY ./package-lock.json /app
-RUN npm ci
-COPY ./ /app
+COPY package*.json ./
+RUN npm ci --legacy-peer-deps
+
+FROM node:22-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 RUN npm run build
 
-FROM node:18-slim AS final
+FROM node:22-alpine AS runner
 WORKDIR /app
-COPY --from=build /app/dist .
-COPY --from=build /app/node_modules ./node_modules
-ENTRYPOINT [ "node", "server.js" ]
+ENV NODE_ENV=production
+# Copy standalone output
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+COPY config ./config
+EXPOSE 3000
+CMD ["node", "server.js"]
