@@ -3,8 +3,6 @@ name: ci
 on:
   push:
     branches: [ "main" ]
-  push:
-    tags: [ "v*" ]
 
 env:
   REGISTRY_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/local-aws-console
